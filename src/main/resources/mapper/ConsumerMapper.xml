@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zf.musicweb.dao.ConsumerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zf.musicweb.entity.Consumer">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="sex" property="sex" />
+        <result column="phone_num" property="phoneNum" />
+        <result column="email" property="email" />
+        <result column="birth" property="birth" />
+        <result column="introduction" property="introduction" />
+        <result column="location" property="location" />
+        <result column="avator" property="avator" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <select id="verifyPassword" resultType="java.lang.Integer">
+        SELECT count(*) FROM consumer where username = #{username} and password = #{password} ;
+    </select>
+
+    <select id="loginStatus" resultMap="BaseResultMap">
+        select *
+        from consumer
+        where username = #{username,jdbcType=INTEGER}
+    </select>
+
+    <select id="allUser" resultMap="BaseResultMap">
+        select * from consumer
+    </select>
+
+    <update id="updateUserMsg" parameterType="com.zf.musicweb.entity.Consumer" >
+
+        update consumer
+        <set >
+            <if test="username != null" >
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+
+            <if test="password != null" >
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                sex = #{sex,jdbcType=TINYINT},
+            </if>
+            <if test="phoneNum != null" >
+                phone_num = #{phoneNum,jdbcType=CHAR},
+            </if>
+            <if test="email != null" >
+                email = #{email,jdbcType=CHAR},
+            </if>
+            <if test="birth != null" >
+                birth = #{birth,jdbcType=TIMESTAMP},
+            </if>
+            <if test="introduction != null" >
+                introduction = #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null" >
+                location = #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="avator != null" >
+                avator = #{avator,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateUserAvator">
+        update consumer
+        <set>
+            <if test="avator !=null">
+                avator= #{avator,jdbcType=VARCHAR},
+            </if>
+        </set>
+            where  id =#{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

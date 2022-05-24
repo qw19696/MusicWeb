@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zf.musicweb.dao.CollectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zf.musicweb.entity.Collect">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="type" property="type" />
+        <result column="song_id" property="songId" />
+        <result column="song_list_id" property="songListId" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <select id="existSongId" resultType="java.lang.Integer">
+        select count(*) from collect where user_id = #{userId, jdbcType=INTEGER} and song_id = #{songId, jdbcType=INTEGER} ;
+    </select>
+
+    <select id="allCollect" resultType="com.zf.musicweb.entity.Collect">
+        select * FROM collect;
+    </select>
+
+    <select id="collectionOfUser" resultMap="BaseResultMap" >
+        select *
+        from collect
+        where user_id = #{userId, jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteCollect" >
+        delete from collect where user_id = #{userId,jdbcType=INTEGER} and song_id=#{songId,jdbcType=INTEGER}
+    </delete>
+
+
+</mapper>
